@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Produtos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openModal('add')">Adicionar Produto</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list lines="full">
+    <ion-item *ngFor="let product of products" class="product-item">
+      <ion-label>
+        <h2>{{ product.nome }}</h2>
+        <p>{{ product.descricao }}</p>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="6"><strong>Preço de Venda:</strong> R$ {{ product.precoVenda }}</ion-col>
+            <ion-col size="6"><strong>Estoque Atual:</strong> {{ product.estoque_atual }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6"><strong>Estoque Mínimo:</strong> {{ product.estoque_minimo }}</ion-col>
+            <ion-col size="6"><strong>Estoque Máximo:</strong> {{ product.estoque_maximo }}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-label>
+      <ion-button fill="clear" slot="end" color="tertiary" (click)="openModal('edit', product)">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" slot="end" color="danger" (click)="deleteProduct(product.id)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+    <ng-container *ngIf="modalMode === 'add' || modalMode === 'edit'">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ modalMode === 'add' ? 'Adicionar Produto' : 'Editar Produto' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content">
+        <form [formGroup]="productForm" class="form-container">
+          <ion-item>
+            <ion-label position="floating">Nome</ion-label>
+            <ion-input formControlName="nome"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Descrição</ion-label>
+            <ion-textarea formControlName="descricao"></ion-textarea>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Preço de Compra</ion-label>
+            <ion-input type="number" formControlName="precoCompra"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Preço de Venda</ion-label>
+            <ion-input type="number" formControlName="precoVenda"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Estoque Atual</ion-label>
+            <ion-input type="number" formControlName="estoque_atual"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Estoque Mínimo</ion-label>
+            <ion-input type="number" formControlName="estoque_minimo"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Estoque Máximo</ion-label>
+            <ion-input type="number" formControlName="estoque_maximo"></ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="floating">Fornecedor</ion-label>
+            <ion-select formControlName="fornecedor">
+              <ion-select-option *ngFor="let fornecedor of fornecedores" [value]="fornecedor.id">
+                {{ fornecedor.razaoSocial }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-button expand="block" color="primary" (click)="saveProduct()">Confirmar</ion-button>
+        </form>
+      </ion-content>
+    </ng-container>
+  </ion-modal>
+</ion-content>
