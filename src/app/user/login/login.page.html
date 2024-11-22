@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true">
-
   <ion-card>
     <ion-card-header>
       <ion-card-title>Seja bem-vindo, faça login</ion-card-title>
@@ -11,15 +10,18 @@
             <ion-icon name="person-outline"></ion-icon>
             Nome de usuário
           </ion-label>
-          <ion-input formControlName="username" type="type"></ion-input>
+          <ion-input formControlName="username" type="text"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating"><ion-icon name="lock-closed-outline"></ion-icon>
+          <ion-label position="floating">
+            <ion-icon name="lock-closed-outline"></ion-icon>
             Senha
           </ion-label>
           <ion-input formControlName="password" type="password"></ion-input>
         </ion-item>
-        <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">Logar</ion-button> 
+        <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
+          Logar
+        </ion-button>
       </form>
       <ion-text>
         <p>Não possui uma conta? <a routerLink="/cadastro">Cadastre-se</a></p>

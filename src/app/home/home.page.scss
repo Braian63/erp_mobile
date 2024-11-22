@@ -1,41 +1,76 @@
-#container {
+/* Global Styles */
+:root {
+  --primary-color: #5e60ce; /* Azul mais elegante */
+  --secondary-color: #f8f9fa; /* Fundo claro */
+  --accent-color: #4cd137; /* Verde sutil para destaque */
+  --text-color: #2c3e50; /* Cinza escuro */
+  --border-color: #dcdde1; /* Cinza para linhas */
+}
+
+body, ion-content {
+  --ion-background-color: var(--secondary-color);
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+}
+
+/* Cards */
+ion-card {
+  margin: 16px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+ion-card:not(:last-child)::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: var(--border-color);
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+/* Headers */
+ion-card-header {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+ion-card-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+ion-card-title ion-icon {
+  margin-right: 8px;
+  font-size: 1.6rem;
+  color: var(--accent-color);
 }
 
-#container a {
-  text-decoration: none;
-}
-
-
-.top-products-container h3 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
+/* Card Content */
+ion-card-content {
+  padding: 16px;
+  font-size: 1.1rem;
+  color: var(--text-color);
   text-align: center;
-  color: #333;
 }
 
+ion-card-content ion-icon {
+  margin-right: 6px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* Top Products List */
 .top-products-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
   margin: 0;
 }
@@ -44,31 +79,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px;
-  margin: 5px 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
 }
 
-.top-product-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.top-product-item:last-child {
+  border-bottom: none;
 }
 
-.product-info {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
+.top-product-item strong {
+  color: var(--primary-color);
 }
 
-.product-info strong {
-  font-size: 1.2em;
-  color: #444;
+/* Toolbar */
+ion-toolbar {
+  --background: var(--primary-color);
+  --color: white;
+  text-align: center;
 }
 
-.product-info span {
-  font-size: 0.9em;
-  color: #777;
+/* Responsive Design */
+@media (min-width: 768px) {
+  ion-card {
+    max-width: 600px;
+    margin: 16px auto;
+  }
 }
