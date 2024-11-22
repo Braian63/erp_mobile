@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Realize uma Venda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Lista de Produtos -->
+  <ion-list class="product-list">
+    <ion-item *ngFor="let product of products" lines="none" class="product-item">
+      <ion-thumbnail slot="start">
+        <img *ngIf="product.imagem" [src]="product.imagem" alt="Imagem do Produto">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ product.nome }}</h2>
+        <p>Preço: R$ {{ product.precoVenda }}</p>
+      </ion-label>
+      <ion-button fill="solid" color="primary" (click)="addToCart(product)">Adicionar ao Carrinho</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Carrinho de Compras -->
+  <ion-card *ngIf="cart.length > 0" class="cart-card">
+    <ion-card-header>
+      <ion-card-title>Carrinho</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let item of cart; let i = index">
+          <ion-label>
+            <h3>{{ item.nome }}</h3>
+            <p>Quantidade: {{ item.quantity }}</p>
+            <p>Subtotal: R$ {{ item.subtotal.toFixed(2) }}</p>
+          </ion-label>
+          <ion-button fill="clear" color="danger" (click)="removeFromCart(item, i)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+      <div class="cart-total">
+        <p><strong>Total: R$ {{ total.toFixed(2) }}</strong></p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Informações da Venda -->
+  <ion-card class="payment-info-card">
+    <ion-card-header>
+      <ion-card-title>Informações da Venda</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Selecionar o Método de Pagamento -->
+      <ion-item>
+        <ion-label>Método de Pagamento</ion-label>
+        <ion-select [(ngModel)]="selectedPaymentMethod">
+          <ion-select-option *ngFor="let method of paymentMethods" [value]="method.value">
+            {{ method.label }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Selecionar o Cliente -->
+      <ion-item>
+        <ion-label>Cliente</ion-label>
+        <ion-select [(ngModel)]="selectedClient">
+          <ion-select-option *ngFor="let client of clients" [value]="client.id">
+            {{ client.nome }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Finalizar Venda -->
+  <ion-button expand="full" color="success" (click)="finalizeSale()">Finalizar Venda</ion-button>
+</ion-content>

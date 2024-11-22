@@ -1,16 +1,5 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>cadastro</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cadastro</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-card>
     <ion-card-header>
       <ion-card-title>Seja bem-vindo, faça seu cadastro</ion-card-title>
@@ -18,19 +7,30 @@
     <ion-card-content>
       <form (ngSubmit)="signup()" [formGroup]="signupForm">
         <ion-item>
-          <ion-label position="floating">Nome</ion-label>
+          <ion-label position="floating">
+            <ion-icon name="person-outline"></ion-icon>
+            Nome de usuário
+          </ion-label>
           <ion-input type="text" formControlName="username"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Email</ion-label>
+          <ion-label position="floating">
+            <ion-icon name="mail-outline"></ion-icon>
+            Email
+          </ion-label>
           <ion-input type="email" formControlName="email"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Senha</ion-label>
+          <ion-label position="floating"><ion-icon name="lock-closed-outline"></ion-icon>
+            Senha
+          </ion-label>
           <ion-input type="password" formControlName="password"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Senha</ion-label>
+          <ion-label position="floating">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            Confirmar Senha
+          </ion-label>
           <ion-input type="password" formControlName="confirmPassword"></ion-input>
         </ion-item>
         <ion-button expand="block" type="submit" [disabled]="signupForm.invalid">Cadastrar</ion-button>

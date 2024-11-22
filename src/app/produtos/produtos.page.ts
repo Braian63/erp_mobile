@@ -9,12 +9,12 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class ProdutosPage implements OnInit {
   products: any[] = [];
-  fornecedores: any[] = []; // Lista de produtos carregada da API
+  fornecedores: any[] = [];
 
   isModalOpen = false; // Controle do modal
   modalMode: 'add' | 'edit' = 'add'; // Modo do modal
-  selectedProduct: any = null; // Produto selecionado para edição
-  productForm: FormGroup; // Formulário de produtos
+  selectedProduct: any = null; 
+  productForm: FormGroup; 
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {
     this.productForm = this.fb.group({
@@ -32,7 +32,6 @@ export class ProdutosPage implements OnInit {
   ngOnInit() {
     this.loadData(); 
     this.loadFornecedores();
-    // Carregar dados ao iniciar
   }
 
   async loadData() {
@@ -73,26 +72,23 @@ export class ProdutosPage implements OnInit {
     }
   }
 
-  // Abrir modal para adicionar ou editar
   openModal(mode: 'add' | 'edit', product: any = null) {
     this.modalMode = mode;
     this.isModalOpen = true;
 
     if (mode === 'edit' && product) {
       this.selectedProduct = product;
-      this.productForm.patchValue(product); // Preenche o formulário com os dados do produto
+      this.productForm.patchValue(product); 
     } else {
-      this.productForm.reset(); // Reseta o formulário para adição
+      this.productForm.reset(); 
     }
   }
 
-  // Fechar modal
   closeModal() {
     this.isModalOpen = false;
     this.selectedProduct = null;
   }
 
-  // Salvar produto (criar ou editar)
   async saveProduct() {
     if (this.productForm.valid) {
       const { nome, descricao, precoCompra, precoVenda, estoque_atual, fornecedor, estoque_minimo, estoque_maximo} = this.productForm.value;
@@ -100,7 +96,7 @@ export class ProdutosPage implements OnInit {
       try {
         console.log('Dados dos produtos' + nome, descricao,estoque_atual, precoCompra, precoVenda, fornecedor, estoque_minimo, estoque_maximo )
         if (this.modalMode === 'add') {
-          // Criar novo produto
+  
           const response = await this.apiService.postData('produtos/', { nome, descricao, precoCompra, precoVenda, estoque_atual, fornecedor, estoque_minimo, estoque_maximo });
           response.subscribe(
             (newProduct) => {
@@ -114,14 +110,13 @@ export class ProdutosPage implements OnInit {
             }
           );
         } else if (this.modalMode === 'edit') {
-          // Editar produto existente
           const productId = this.selectedProduct.id;
           const response = await this.apiService.putData(`/produtos/${productId}`, { nome, descricao, precoCompra, precoVenda, estoque_atual, fornecedor, estoque_minimo, estoque_maximo});
           response.subscribe(
             (updatedProduct) => {
               console.log('Produto atualizado:', updatedProduct);
               const index = this.products.findIndex((p) => p.id === productId);
-              this.products[index] = updatedProduct; // Atualiza o produto na lista
+              this.products[index] = updatedProduct;
               this.closeModal();
             },
             (error) => {
@@ -137,14 +132,13 @@ export class ProdutosPage implements OnInit {
     }
   }
 
-  // Excluir produto
   async deleteProduct(productId: number) {
     try {
       const response = await this.apiService.deleteData(`/produtos/${productId}`);
       response.subscribe(
         () => {
           console.log('Produto excluído:', productId);
-          this.products = this.products.filter((p) => p.id !== productId); // Remove o produto da lista
+          this.products = this.products.filter((p) => p.id !== productId); 
         },
         (error) => {
           console.error('Erro ao excluir produto:', error);

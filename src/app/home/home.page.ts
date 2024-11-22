@@ -15,7 +15,6 @@ export class HomePage {
 
   ngOnInit() {
     this.loadClientes(); 
-    
   }
 
   async loadClientes() {
@@ -44,14 +43,14 @@ export class HomePage {
   }
 
   getMonthlySales(sales: any[]): number {
-    const currentMonth = new Date().getMonth() + 1;
+    const currentMonth = new Date().getMonth(); // Mês atual (índice baseado em 0)
   
     return sales
       .filter((sale) => {
-        const saleDate = new Date(sale.data_venda); // Converte datetime para objeto Date
-        return saleDate.getMonth() + 1 === currentMonth; // Compara mês
+        const saleDate = new Date(sale.data_venda); // Converte para Date
+        return saleDate.getMonth() === currentMonth; // Compara o mês
       })
-      .reduce((total, sale) => parseInt(total + sale.total, 10), 0);
+      .reduce((total, sale) => total + parseFloat(sale.total), 0); // Soma os valores como números
   }
   
   getDailySales(sales: any[]): number {
@@ -59,11 +58,12 @@ export class HomePage {
   
     return sales
       .filter((sale) => {
-        const saleDate = new Date(sale.data_venda); // Converte datetime para objeto Date
-        return saleDate.toISOString().split('T')[0] === today; // Compara apenas a data
+        const saleDate = new Date(sale.data_venda).toISOString().split('T')[0]; // Converte e formata a data
+        return saleDate === today; // Compara as datas
       })
-      .reduce((total, sale) => parseInt(total + sale.total, 10), 0);
+      .reduce((total, sale) => total + parseFloat(sale.total), 0); // Soma os valores como números
   }
+  
 
 }
 
