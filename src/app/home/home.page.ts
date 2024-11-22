@@ -11,10 +11,12 @@ export class HomePage {
   clientes: number = 0;
   vendasMes: number = 0;
   vendasHoje: number = 0;
+  topProducts: { nome: string; quantidade: number }[] = [];
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     this.loadClientes(); 
+    this.loadProdMaisVendidos()
   }
 
   async loadClientes() {
@@ -62,6 +64,56 @@ export class HomePage {
         return saleDate === today; // Compara as datas
       })
       .reduce((total, sale) => total + parseFloat(sale.total), 0); // Soma os valores como números
+  }
+  
+  async loadProdMaisVendidos() {
+    try {
+      const itemVendasData = await this.apiService.getData('itemvendas/');
+      itemVendasData.subscribe(
+        async (itemVendasResponse) => {
+          console.log('ItemVendas carregados:', itemVendasResponse);
+  
+          // Busca os dados de Produtos
+          const ProdutosData = await this.apiService.getData('produtos/');
+          ProdutosData.subscribe(
+            (produtosResponse) => {
+              console.log('Produtos carregados:', produtosResponse);
+  
+              // Calcula os produtos mais vendidos
+              this.topProducts = this.calculateTopProducts(itemVendasResponse, produtosResponse);
+            },
+            (error) => {
+              console.error('Erro ao carregar produtos:', error);
+              alert('Erro ao carregar produtos. Verifique sua conexão ou o token.');
+            }
+          );
+        },
+        (error) => {
+          console.error('Erro ao carregar ItemVendas:', error);
+          alert('Erro ao carregar ItemVendas. Verifique sua conexão ou o token.');
+        }
+      );
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+      alert('Erro ao carregar dados. Verifique sua conexão ou o token.');
+    }
+  }
+  
+  calculateTopProducts(itemVendas: any[], produtos: any[]) {
+    const productSales: { [key: number]: number } = {};
+  
+    // Soma as quantidades vendidas por produto
+    itemVendas.forEach(item => {
+      productSales[item.produto] = (productSales[item.produto] || 0) + item.quantidade;
+    });
+  
+    // Combina os dados com os nomes dos produtos
+    const topProducts = Object.entries(productSales).map(([id, quantidade]) => {
+      const produto = produtos.find(p => p.id === Number(id));
+      return { nome: produto?.nome || 'Produto Desconhecido', quantidade: quantidade as number };
+    });
+  
+    return topProducts.sort((a, b) => b.quantidade - a.quantidade);
   }
   
 

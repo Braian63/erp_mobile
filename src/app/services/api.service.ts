@@ -7,7 +7,7 @@ import { Storage } from '@ionic/storage-angular';
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'http://localhost:8000/api'; // URL da API Django
+  private baseUrl = 'http://skilldev89.pythonanywhere.com/api'; // URL da API Django
 
   constructor(private http: HttpClient, private storage: Storage) {
     this.initStorage();}
@@ -40,7 +40,7 @@ export class ApiService {
       .set('Content-Type', 'application/json');;
     return this.http.post(`${this.baseUrl}/${endpoint}`, data, { headers });
   }
-
+  //PUT 
   async putData(endpoint: string, data: any): Promise<Observable<any>> {
     const token = await this.getAuthToken();
     console.log(token)

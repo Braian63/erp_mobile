@@ -31,6 +31,15 @@ const routes: Routes = [
     path: 'clientes',
     loadChildren: () => import('./clientes/clientes.module').then( m => m.ClientesPageModule)
   },
+  {
+    path: 'fornecedores',
+    loadChildren: () => import('./fornecedores/fornecedores.module').then( m => m.FornecedoresPageModule)
+  },
+  {
+    path: 'historico_vendas',
+    loadChildren: () => import('./historico-vendas/historico-vendas.module').then( m => m.HistoricoVendasPageModule)
+  },
+    
 ];
 
 @NgModule({

@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Fornecedores</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openModal('add')">Adicionar Fornecedor</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list lines="full">
+    <ion-item *ngFor="let fornecedor of fornecedores" class="fornecedor-item">
+      <ion-label>
+        <h2>{{ fornecedor.nomeFantasia }}</h2>
+        <p>{{ fornecedor.razaoSocial }}</p>
+        <p><strong>CNPJ:</strong> {{ fornecedor.CNPJ }}</p>
+        <p><strong>Telefone:</strong> {{ fornecedor.telefone }}</p>
+        <p><strong>Email:</strong> {{ fornecedor.email }}</p>
+      </ion-label>
+      <ion-button fill="clear" slot="end" color="tertiary" (click)="openModal('edit', fornecedor)">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" slot="end" color="danger" (click)="deleteFornecedor(fornecedor.id)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Modal -->
+  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
+    <ng-container *ngIf="modalMode === 'add' || modalMode === 'edit'">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>{{ modalMode === 'add' ? 'Adicionar Fornecedor' : 'Editar Fornecedor' }}</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Cancelar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="modal-content">
+        <form [formGroup]="fornecedorForm" class="form-container">
+          <ion-item>
+            <ion-label position="floating">Razão Social</ion-label>
+            <ion-input formControlName="razaoSocial"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Nome Fantasia</ion-label>
+            <ion-input formControlName="nomeFantasia"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">CNPJ</ion-label>
+            <ion-input formControlName="CNPJ"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">CEP</ion-label>
+            <ion-input formControlName="CEP"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Telefone</ion-label>
+            <ion-input formControlName="telefone"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" formControlName="email"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" color="primary" (click)="saveFornecedor()">Confirmar</ion-button>
+        </form>
+      </ion-content>
+    </ng-container>
+  </ion-modal>
+</ion-content>
